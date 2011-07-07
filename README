@@ -1,0 +1,6 @@
+Gopher News
+-----------
+A quick and dirty Gopher server for reading Digg and Hacker News
+
+This code is provided as-is and may make your server vulnerable to attack and
+kill kittens if you run it in production. You have been warned.
