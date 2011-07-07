@@ -127,7 +127,12 @@ class HNSite(Site):
         self.page('/new')
 
     def page(self, endpoint):
-        data = self.request(endpoint)
+        try:
+            data = self.request(endpoint)
+        except:
+            self.write('Error reading from api.ihackernews.com\r\n\r\n.\r\n')
+            return
+
         for story in data['items']:
             self.write('0%s\thackernews/%s.story\t%s\r\ni%s\r\ni%i points - %i comments\r\n\r\n' % (
                 story['title'].encode('ascii', 'replace'),
@@ -140,7 +145,11 @@ class HNSite(Site):
 
     def handle_story(self, line):
         id = line.rsplit('.', 1)[0]
-        post = self.request('/post/' + id)
+        try:
+            post = self.request('/post/' + id)
+        except:
+            self.write('Error from api.ihackernews.com\r\n\r\n.\r\n')
+            return
 
         self.write('%s\r\n%s -- %s\r\n%i points by %s %s\r\n%i comments\r\n\r\n%s\r\n' % (
             post['title'].encode('ascii', 'replace'),
